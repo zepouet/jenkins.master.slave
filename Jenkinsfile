@@ -15,29 +15,41 @@ pipeline {
         }
 
         stage ('Hello World Slave 1') {
+            agent {
+                label "slave1"
+            }
             steps {
-                node('slave1') {
-                    sh 'echo "HelloWorld1"' 
-                }
+                sh 'echo "HelloWorld1"' 
             }
         }
 
         stage ('Hello World Slave 2') {
+            agent {
+                label "slave2"
+            }
             steps {
-                node('slave2') {
-                    sh 'echo "HelloWorld2"' 
-                }
+                sh 'echo "HelloWorld2"'
             }
         }
 
         stage ('Hello World Parallel') {
-            steps {
-                node('slave1') {
-                    sh 'sleep 5&& echo "HelloWorld0"' 
-                }
-                node('slave2') {
-                    sh 'echo "HelloWorld0"' 
-                }
+            parallel {
+               stage('Test On Slave 1') {
+                   agent {
+                       label "slave1"
+                   }
+                   steps {
+                       sh 'sleep 5&& echo "HelloWorld0"' 
+                   }
+               }
+               stage('Test On Slave 2') {
+                   agent {
+                       label "slave2"
+                   }
+                   steps {
+                       sh 'echo "HelloWorld0"'
+                   }
+               }
             }
         }
 
