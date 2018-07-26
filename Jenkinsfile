@@ -14,6 +14,15 @@ pipeline {
             }
         }
 
+        stage ('Docker step') {
+            agent {
+                label "autoscale"
+            }
+            steps {
+                sh 'docker version'
+            }
+        }
+
         stage ('Hello World Slave 1') {
             agent {
                 label "autoscale"
