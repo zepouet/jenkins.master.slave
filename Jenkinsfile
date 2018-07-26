@@ -39,7 +39,7 @@ pipeline {
                        label "autoscale"
                    }
                    steps {
-                       sh 'sleep 5 && hostname' 
+                       sh 'sleep 10 && hostname' 
                    }
                }
                stage('Test On Slave 2') {
@@ -47,7 +47,7 @@ pipeline {
                        label "autoscale"
                    }
                    steps {
-                       sh 'hostname'
+                       sh 'sleep 10 && hostname'
                    }
                }
             }
