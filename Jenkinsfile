@@ -16,19 +16,19 @@ pipeline {
 
         stage ('Hello World Slave 1') {
             agent {
-                label "slave1"
+                label "autoscale"
             }
             steps {
-                sh 'echo "HelloWorld1"' 
+                sh 'hostname' 
             }
         }
 
         stage ('Hello World Slave 2') {
             agent {
-                label "slave2"
+                label "autoscale"
             }
             steps {
-                sh 'echo "HelloWorld2"'
+                sh 'hostname'
             }
         }
 
@@ -36,18 +36,18 @@ pipeline {
             parallel {
                stage('Test On Slave 1') {
                    agent {
-                       label "slave1"
+                       label "autoscale"
                    }
                    steps {
-                       sh 'sleep 5&& echo "HelloWorld0"' 
+                       sh 'sleep 5 && hostname' 
                    }
                }
                stage('Test On Slave 2') {
                    agent {
-                       label "slave2"
+                       label "autoscale"
                    }
                    steps {
-                       sh 'echo "HelloWorld0"'
+                       sh 'hostname'
                    }
                }
             }
