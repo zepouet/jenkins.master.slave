@@ -20,7 +20,7 @@ pipeline {
             }
             steps {
                 sh 'id'
-                sh '/usr/local/bin/docker version'
+                sh 'sudo su && docker version'
             }
         }
 
