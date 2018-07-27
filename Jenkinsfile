@@ -14,16 +14,16 @@ pipeline {
             }
         }
         stage('Container exec') {
+            agent {
+                label "autoscale"
+            }
             container('slave') {
                 stage ('Docker step') {
-                    agent {
-                        label "autoscale"
-                    }
-                    steps {
-                        sh 'whoami'
-                        sh 'sleep 10000'
-                        sh 'docker version'
-                    }
+                        sh """
+                        whoami
+                        sleep 10000
+                        docker version
+                        """
                 }
             }
         }
