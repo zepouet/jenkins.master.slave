@@ -19,7 +19,7 @@ pipeline {
                 label "autoscale"
             }
             steps {
-                sh 'su 0'
+                sh 'id'
                 sh 'docker version'
             }
         }
