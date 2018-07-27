@@ -13,15 +13,17 @@ pipeline {
                 checkout scm
             }
         }
-        container('slave') {
-            stage ('Docker step') {
-                agent {
-                    label "autoscale"
-                }
-                steps {
-                    sh 'whoami'
-                    sh 'sleep 10000'
-                    sh 'docker version'
+        stage('Container exec'){
+            container('slave') {
+                stage ('Docker step') {
+                    agent {
+                        label "autoscale"
+                    }
+                    steps {
+                        sh 'whoami'
+                        sh 'sleep 10000'
+                        sh 'docker version'
+                    }
                 }
             }
         }
