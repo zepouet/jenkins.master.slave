@@ -1,23 +1,69 @@
 pipeline {
+
     agent any
-    def label = "mypod-${UUID.randomUUID().toString()}"
-	podTemplate(label: label, containers: [
-	    containerTemplate(name: 'slave', image: 'streamout/jenkins-slave:1.0.0', ttyEnabled: true, command: 'cat')
-	  ]) {
 
-	    node(label) {
-		stage('Get a Golang project') {
-		    git url: 'https://github.com/hashicorp/terraform.git'
-		    container('slave') {
-		        stage('slave a Go project') {
-		            sh """
-		            whoami
-		            docker version
-		            """
-		        }
-		    }
-		}
+    triggers {
+        pollSCM('*/1 * * * *')
+    }
+    
+    stages {
 
-	    }
-	}
+        stage ('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Container exec') {
+            agent {
+                label "autoscale"
+            }
+            container('slave') {
+                sh """
+                whoami
+                sleep 10000
+                docker version
+                """
+            }
+        }
+        stage ('Hello World Slave 1') {
+            agent {
+                label "autoscale"
+            }
+            steps {
+                sh 'hostname' 
+            }
+        }
+
+        stage ('Hello World Slave 2') {
+            agent {
+                label "autoscale"
+            }
+            steps {
+                sh 'hostname'
+            }
+        }
+
+        stage ('Hello World Parallel') {
+            parallel {
+               stage('Test On Slave 1') {
+                   agent {
+                       label "autoscale"
+                   }
+                   steps {
+                       sh 'sleep 10 && hostname' 
+                   }
+               }
+               stage('Test On Slave 2') {
+                   agent {
+                       label "autoscale"
+                   }
+                   steps {
+                       sh 'sleep 10 && hostname'
+                   }
+               }
+            }
+        }
+
+    }
 }
+
