@@ -21,7 +21,6 @@ pipeline {
                 container('slave') {
                     sh """
                     whoami
-                    sleep 10000
                     docker version
                     """
                 }
