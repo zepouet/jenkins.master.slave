@@ -21,7 +21,7 @@ pipeline {
                 container('slave') {
                     sh """
                     whoami
-                    docker version
+                    docker ps
                     """
                 }
             }
