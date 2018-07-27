@@ -13,18 +13,18 @@ pipeline {
                 checkout scm
             }
         }
-
-        stage ('Docker step') {
-            agent {
-                label "autoscale"
-            }
-            steps {
-                sh 'whoami'
-                sh 'sleep 10000'
-                sh 'docker version'
+        container('slave') {
+            stage ('Docker step') {
+                agent {
+                    label "autoscale"
+                }
+                steps {
+                    sh 'whoami'
+                    sh 'sleep 10000'
+                    sh 'docker version'
+                }
             }
         }
-
         stage ('Hello World Slave 1') {
             agent {
                 label "autoscale"
