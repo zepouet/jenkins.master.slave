@@ -13,7 +13,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Container exec'){
+        stage('Container exec') {
             container('slave') {
                 stage ('Docker step') {
                     agent {
