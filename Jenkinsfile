@@ -8,7 +8,7 @@ pipeline {
 	    node(label) {
 		stage('Get a Golang project') {
 		    git url: 'https://github.com/hashicorp/terraform.git'
-		    container('golang') {
+		    container('slave') {
 		        stage('slave a Go project') {
 		            sh """
 		            whoami
