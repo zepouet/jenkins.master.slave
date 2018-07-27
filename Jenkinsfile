@@ -17,12 +17,14 @@ pipeline {
             agent {
                 label "autoscale"
             }
-            container('slave') {
-                sh """
-                whoami
-                sleep 10000
-                docker version
-                """
+            steps {
+                container('slave') {
+                    sh """
+                    whoami
+                    sleep 10000
+                    docker version
+                    """
+                }
             }
         }
         stage ('Hello World Slave 1') {
